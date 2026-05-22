@@ -27,6 +27,7 @@ public class IndexController {
 		session.invalidate();
 		return "index";
 	}
+	
 
 	@RequestMapping(path = "/login", method = RequestMethod.POST)
 	public String login(@ModelAttribute LoginForm loginForm, HttpSession session, Model model) {
