@@ -5,6 +5,8 @@ import java.util.Date;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -31,7 +33,19 @@ public class Employee {
 	@Column
 	private Integer authority;
 	
-	 public Integer getEmpId() {
+	@ManyToOne
+	@JoinColumn(name = "dept_id",referencedColumnName = "deptId")
+	private Department department;
+	
+	 public Department getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(Department department) {
+		this.department = department;
+	}
+
+	public Integer getEmpId() {
 	        return empId;
 	    }
 

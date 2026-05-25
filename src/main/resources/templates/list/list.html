@@ -17,12 +17,14 @@
 
 	<!-- ***検索結果が０件の場合*** -->
 	<!-- ***falseを書き換え、表示内容を記述すること*** -->
-	<th:block th:if="false">
+	<th:block th:if="${#lists.isEmpty(employees)}">
 		<div class="message">
 			<!--以下に該当する社員が存在しないときのメッセージを記述する -->
-			<p class="back_to_top_message"></p>
+			<p class="back_to_top_message">該当する社員は存在しません</p>
 			<!--以下に一覧表示に戻るリンクを記述する -->
 			<p class="back_to_top_link"></p>
+			<a th:href="@{/list}">一覧表示に戻る</a>
+			
 		</div>
 	</th:block>
 	<!-- ***検索結果が０件の場合 ここまで*** -->
@@ -30,7 +32,7 @@
 	<!-- ***検索結果がある場合*** -->
 	<!-- Employeeテーブルからclass名を指定すること。 -->
 	<!-- ***trueを書き換えること*** -->
-	<table class="list_table" th:if="true">
+	<table class="list_table" th:if="${not #lists.isEmpty(employees)}">
 		<tr>
 			<th class="empId">社員ID</th>
 			<th class="empName">社員名</th>
@@ -42,15 +44,23 @@
 		</tr>
 
 		<!-- ***####を書き換え、社員情報を全件出力する*** -->
-		<tr th:each="list:${list}">
-		<td th:text="${list.empId}"></td>
-		<td th:text="${list.empName}"></td>
-		<td th:text="${list.gender}"></td>
-		<td th:text="${list.address}"></td>
-		<td th:text="${list.birthday}"></td>
-		<td th:text="${list.authority}"></td>
-<!--		<td th:text="${list.deptName}"></td>-->
-<!--外部参照-->
+		<tr th:each="employee:${employees}">
+		<td th:text="${employee.empId}"></td>
+		<td th:text="${employee.empName}"></td>
+		<td th:switch="${employee.gender}">
+		<span th:case="1">男性</span>
+		<span th:case="2">女性</span>
+		</td>
+		<td th:text="${employee.address}"></td>
+		<td th:text="${#dates.format(employee.birthday, 'yyyy/MM/dd')}"></td>
+		<td th:switch="${employee.authority}">
+			<span th:case="1">一般</span>
+			<span th:case="2">管理者</span>
+		</td>
+		<td th:text="${employee.department.deptName}"></td>
+		
+		
+
 
 
 
